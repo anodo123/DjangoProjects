@@ -4,5 +4,7 @@ from . import views
 from .models import User,Post,Comment
 urlpatterns = [
     path('createposts', views.add_post, name='createposts'),
-    path('createcomment',views.add_comment,name = 'createcomment')
+    path('createcomment',views.add_comment,name = 'createcomment'),
+    path('createuser',views.add_user,name = 'createuser'),
 ]
+

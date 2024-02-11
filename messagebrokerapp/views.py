@@ -20,3 +20,7 @@ def add_post(request):
 def add_comment(request):
     pass
     
+
+@api_view(['POST','GET'])
+def add_user(request):
+    pass
