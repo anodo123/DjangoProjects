@@ -1,0 +1,64 @@
+{
+    "users": [
+        {
+            "user_id": 202,
+            "username": "author_user_1",
+            "email": "author_user_1@example.com",
+            "is_author": true
+        },
+        {
+            "user_id": 203,
+            "username": "author_user_2",
+            "email": "author_user_2@example.com",
+            "is_author": true
+        },
+        {
+            "user_id": 204,
+            "username": "author_user_3",
+            "email": "author_user_3@example.com",
+            "is_author": true
+        },
+        {
+            "user_id": 205,
+            "username": "author_user_4",
+            "email": "author_user_4@example.com",
+            "is_author": true
+        },
+        {
+            "user_id": 206,
+            "username": "author_user_5",
+            "email": "author_user_5@example.com",
+            "is_author": true
+        },
+        {
+            "user_id": 207,
+            "username": "author_user_6",
+            "email": "author_user_6@example.com",
+            "is_author": true
+        },
+        {
+            "user_id": 208,
+            "username": "author_user_7",
+            "email": "author_user_7@example.com",
+            "is_author": true
+        },
+        {
+            "user_id": 209,
+            "username": "author_user_8",
+            "email": "author_user_8@example.com",
+            "is_author": true
+        },
+        {
+            "user_id": 210,
+            "username": "author_user_9",
+            "email": "author_user_9@example.com",
+            "is_author": true
+        },
+        {
+            "user_id": 211,
+            "username": "author_user_10",
+            "email": "author_user_10@example.com",
+            "is_author": true
+        }
+    ]
+}

@@ -3,9 +3,9 @@ from django.urls import path
 from . import views
 from .models import User,Post,Comment
 urlpatterns = [
-    path('createposts', views.add_post, name='createposts'),
-    path('createcomment',views.add_comment,name = 'createcomment'),
-    path('createuser',views.add_user,name = 'createuser'),
+    path('createposts', views.createposts, name='createposts'),
+    path('createcomment',views.createcomment,name = 'createcomment'),
+    path('createuser',views.createuser,name = 'createuser'),
     path('addsubscribers',views.add_subscribers,name = 'addsubscribers'),
 ]
 

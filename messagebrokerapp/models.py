@@ -16,6 +16,6 @@ class Comment(models.Model):
 class User(AbstractUser):
     # Add your custom fields here
     age = models.PositiveIntegerField(null=True, blank=True)
-    is_author = models.BinaryField(default = 0)
+    is_author = models.BooleanField (default = False)
     subscribers = models.JSONField(default = dict)
     # Add more fields as needed

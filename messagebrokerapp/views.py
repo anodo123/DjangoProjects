@@ -9,7 +9,7 @@ from .models import Post, Comment, User
 
 
 @api_view(['POST','GET'])
-def add_post(request):
+def createposts(request):
     try:
         blog_id = None
         blog_status = False
@@ -27,7 +27,7 @@ def add_post(request):
 
 
 @api_view(['POST','GET'])
-def add_comment(request):
+def createcomment(request):
     try:
         blog_comment_id = None
         blog_id = request.POST.get("blog_id", False)
@@ -48,21 +48,24 @@ def add_comment(request):
     
 
 @api_view(['POST','GET'])
-def add_user(request):
+def createuser(request):
     try:
         username = request.POST.get("username", False)
         email = request.POST.get("email", False)
         password = request.POST.get("password", False)
-        is_author =int(request.POST.get("password", 0))
-        if not(username and email and password and is_author):
-            return JsonResponse({"One or More Missing Parameter":True})
+        is_author =int(request.POST.get("is_author", False))
+        if is_author!= 0 and is_author!=1:
+            return JsonResponse({"One or More Missing Parameter":True},status=400)
+        is_author = bool(is_author)
+        if not (username and email and password):
+            return JsonResponse({"One or More Missing Parameter":True},status=400)
         user = User(username=username,email=email,password=password,is_author=is_author)
         if user:
             user.save()        
             return JsonResponse({"user_added":True, "user_id":user.id, "username":user.username, "is_author":is_author})
         return JsonResponse({"user_added":False})
     except Exception as error:
-        return JsonResponse({"user_added":False})
+        return JsonResponse({"user_added":False},status=400)
     
 
 
@@ -84,4 +87,3 @@ def add_subscribers(request):
     except Exception as error:
         return JsonResponse({"subscriber_added":True})
     
-
