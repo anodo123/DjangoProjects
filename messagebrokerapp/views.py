@@ -18,7 +18,7 @@ def createposts(request):
         author_id = request.POST.get("author_id","")
         if not User.objects.filter(user_id = author_id).exists():
             return JsonResponse({"blog_created":False,"blog_id":None,'author_id':author_id})
-        blog_post = Post(content = content,title = title)
+        blog_post = Post(content = content,title = title,author_id=author_id)
         if blog_post:
             blog_post.save()
             blog_id = blog_post.post_id
