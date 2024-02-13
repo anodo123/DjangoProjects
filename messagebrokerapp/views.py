@@ -15,6 +15,9 @@ def createposts(request):
         blog_status = False
         content = request.POST.get("post","")
         title = request.POST.get("title","")
+        author_id = request.POST.get("author_id","")
+        if not User.objects.filter(user_id = author_id).exists():
+            return JsonResponse({"blog_created":False,"blog_id":None,'author_id':author_id})
         blog_post = Post(content = content,title = title)
         if blog_post:
             blog_post.save()
