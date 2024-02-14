@@ -7,7 +7,8 @@ from requests import request
 # Create your views here.
 from .models import Post, Comment, User
 import json
-
+import pika
+from . import settings
 @api_view(['POST','GET'])
 def createposts(request):
     try:
@@ -35,12 +36,30 @@ def createcomment(request):
         blog_comment_id = None
         blog_id = request.POST.get("blog_id", False)
         comment = request.POST.get("comment",False)
+        user_id = request.POST.get("user_id", False)
         if not blog_id:
             return JsonResponse({"Missing Parameter":"Blog Id"})
         if not comment:
             return JsonResponse({"Missing Parameter":"Comment"})
         if not Post.objects.filter(post_id = blog_id).exists():
             return JsonResponse({"Error":"No Such Blog Exists"})
+        # Publish message to RabbitMQ
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=settings.RABBITMQ_HOST,
+                                                                    port=settings.RABBITMQ_PORT,
+                                                                    credentials=pika.PlainCredentials(settings.RABBITMQ_USERNAME,
+                                                                                                        settings.RABBITMQ_PASSWORD)))
+        channel = connection.channel()
+        channel.queue_declare(queue=settings.RABBITMQ_QUEUE)
+        message = {
+            "blog_id" :blog_id,
+            "comment" :comment ,
+            "user_id" :user_id 
+            # Add other relevant information about the comment
+        }
+        channel.basic_publish(exchange='',
+                            routing_key=settings.RABBITMQ_QUEUE,
+                            body=json.dumps(message))
+        connection.close()
         blog_comment = Comment(post_id = blog_id,title = comment)
         if blog_comment:
             blog_comment.save()
@@ -90,3 +109,8 @@ def add_subscribers(request):
     except Exception as error:
         return JsonResponse({"subscriber_added":True})
     
+
+
+
+print(Post.objects.all())
+

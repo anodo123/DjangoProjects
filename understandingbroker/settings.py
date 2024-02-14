@@ -125,3 +125,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # settings.py
 AUTH_USER_MODEL = 'messagebrokerapp.User'
+
+
+
+# settings.py
+RABBITMQ_HOST = 'localhost'
+RABBITMQ_PORT = 5672
+RABBITMQ_USERNAME = 'guest'
+RABBITMQ_PASSWORD = 'guest'
+RABBITMQ_QUEUE = 'comments'
