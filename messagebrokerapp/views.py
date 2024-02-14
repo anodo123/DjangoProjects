@@ -6,7 +6,7 @@ from rest_framework import status
 from requests import request
 # Create your views here.
 from .models import Post, Comment, User
-
+import json
 
 @api_view(['POST','GET'])
 def createposts(request):
