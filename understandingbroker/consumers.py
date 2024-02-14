@@ -1,7 +1,9 @@
 # consumer.py
 import pika
 from . import settings
+from messagebrokerapp.models import Comment
 def callback(ch, method, properties, body):
+    new_comment = Comment.objects.create(post_id=body.blog_id, comment=body.comment, author=body.username)
     print("Received message:", body)
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host=settings.RABBITMQ_HOST,

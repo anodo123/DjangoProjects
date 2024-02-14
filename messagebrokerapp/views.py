@@ -34,9 +34,17 @@ def createposts(request):
 def createcomment(request):
     try:
         blog_comment_id = None
+        username = None
         blog_id = request.POST.get("blog_id", False)
         comment = request.POST.get("comment",False)
         user_id = request.POST.get("user_id", False)
+
+        if user_id:
+            user = User.objects.get(user_id = user_id)
+        if user:
+            username = user.username
+        else:
+            return JsonResponse({"User Not Found"})
         if not blog_id:
             return JsonResponse({"Missing Parameter":"Blog Id"})
         if not comment:
@@ -53,14 +61,15 @@ def createcomment(request):
         message = {
             "blog_id" :blog_id,
             "comment" :comment ,
-            "user_id" :user_id 
+            "user_id" :user_id ,
+            "username":username
             # Add other relevant information about the comment
         }
         channel.basic_publish(exchange='',
                             routing_key=settings.RABBITMQ_QUEUE,
                             body=json.dumps(message))
         connection.close()
-        blog_comment = Comment(post_id = blog_id,title = comment)
+        blog_comment = Comment(post_id = blog_id,title = comment,author = username)
         if blog_comment:
             blog_comment.save()
             blog_comment_id = blog_comment.post_id
@@ -110,7 +119,4 @@ def add_subscribers(request):
         return JsonResponse({"subscriber_added":True})
     
 
-
-
-print(Post.objects.all())
 
