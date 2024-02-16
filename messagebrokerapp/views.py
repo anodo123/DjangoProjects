@@ -8,7 +8,7 @@ from requests import request
 from .models import Post, Comment, User
 import json
 import pika
-from . import settings
+from understandingbroker import settings
 @api_view(['POST','GET'])
 def createposts(request):
     try:
