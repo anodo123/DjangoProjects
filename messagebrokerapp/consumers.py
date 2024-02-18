@@ -13,7 +13,7 @@ def callback(ch, method, properties, body):
     print("Received message:", body)
 
 # settings.py
-RABBITMQ_HOST = '0.0.0.0'
+RABBITMQ_HOST = 'localhost'
 RABBITMQ_PORT = 8005
 RABBITMQ_USERNAME = 'guest'
 RABBITMQ_PASSWORD = 'guest'

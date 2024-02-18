@@ -40,7 +40,7 @@ def createcomment(request):
         user_id = request.POST.get("user_id", False)
 
         if user_id:
-            user = User.objects.get(user_id = user_id)
+            user = User.objects.get(id = user_id)
         if user:
             username = user.username
         else:
@@ -52,6 +52,13 @@ def createcomment(request):
         if not Post.objects.filter(post_id = blog_id).exists():
             return JsonResponse({"Error":"No Such Blog Exists"})
         # Publish message to RabbitMQ
+        post = Post.objects.get(post_id =blog_id)
+        blog_comment = Comment(post_id = post,comment = comment,author = username)
+        if blog_comment:
+            blog_comment.save()
+            blog_comment_id = blog_comment.comment_id
+        else:
+            return JsonResponse({"comment_added":False,"comment_id":blog_comment_id})
         connection = pika.BlockingConnection(pika.ConnectionParameters(host=settings.RABBITMQ_HOST,
                                                                     port=settings.RABBITMQ_PORT,
                                                                     credentials=pika.PlainCredentials(settings.RABBITMQ_USERNAME,
@@ -69,10 +76,6 @@ def createcomment(request):
                             routing_key=settings.RABBITMQ_QUEUE,
                             body=json.dumps(message))
         connection.close()
-        blog_comment = Comment(post_id = blog_id,title = comment,author = username)
-        if blog_comment:
-            blog_comment.save()
-            blog_comment_id = blog_comment.post_id
         return JsonResponse({"comment_added":True,"comment_id":blog_comment_id})
     except Exception as error:
         return JsonResponse({"comment_added":False,"comment_id":blog_comment_id})
@@ -120,3 +123,11 @@ def add_subscribers(request):
     
 
 
+
+
+
+"""for single_post in Post.objects.all():
+    print("Post_id = {}, Author_name = {}, Author_id = {}".format(single_post.post_id,single_post.author_id,single_post.author_id.id))
+"""
+"""for single_post in User.objects.all():
+    print(single_post.id,single_post.username)"""
